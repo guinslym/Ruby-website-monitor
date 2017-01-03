@@ -36,7 +36,7 @@ def main()
   rescue
     string = 'down'
   end
-  open('%s/output.txt' % File.expand_path(File.dirname(__FILE__)), 'a') { |f|
+  open('%s/output.txt' % __dir__, 'a') { |f|
     f.puts "%s %s" % [Time.now.to_i, string]
   }
 end
