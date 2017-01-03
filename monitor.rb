@@ -24,18 +24,21 @@ def main()
   url = "https://rosshill.ca" # change this to your website
   timestamp = Time.now.getutc
   begin
+    google = Timeout::timeout(10) {url_exist?("https://www.google.com")}
     exists = Timeout::timeout(10) {url_exist?(url)}
+    string = 'up'
+    if !google && !exists
+      string = 'noconnection'
+    elsif !exists
+      system("notify-send -t 100000 -u critical 'Your website is down' '<b>%s</b> is down as of <b>%s</b>'" % [url, timestamp])
+      string = 'down'
+    end
   rescue
-    exists = false
+    string = 'noconnection'
   end
-  if !exists
-    # send notification
-    system("notify-send -t 100000 -u critical 'Your website is down' '<b>%s</b> is down as of <b>%s</b>'" % [url, timestamp])
-    # log the downtime with unix time stamp
-    open('output.txt', 'a') { |f|
-      f.puts Time.now.to_i
-    }
-  end
+  open('output.txt', 'a') { |f|
+    f.puts "%s %s" % [Time.now.to_i, string]
+  }
 end
 
 main()
