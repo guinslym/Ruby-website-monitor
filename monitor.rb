@@ -34,9 +34,9 @@ def main()
       string = 'down'
     end
   rescue
-    string = 'noconnection'
+    string = 'down'
   end
-  open('output.txt', 'a') { |f|
+  open('%s/output.txt' % File.expand_path(File.dirname(__FILE__)), 'a') { |f|
     f.puts "%s %s" % [Time.now.to_i, string]
   }
 end
