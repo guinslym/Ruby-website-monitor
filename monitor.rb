@@ -29,7 +29,12 @@ def main()
     exists = false
   end
   if !exists
+    # send notification
     system("notify-send -t 100000 -u critical 'Your website is down' '<b>%s</b> is down as of <b>%s</b>'" % [url, timestamp])
+    # log the downtime with unix time stamp
+    open('output.txt', 'a') { |f|
+      f.puts Time.now.to_i
+    }
   end
 end
 
