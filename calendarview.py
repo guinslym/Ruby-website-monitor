@@ -33,6 +33,7 @@ year = 2017  # change this to the year you want to analyze
 
 with open('output.txt') as f:
     events = f.read().splitlines()
+
 downtime = getDowntimeEvents(events, year)
 calmap.yearplot(downtime, year=year)
 plt.show()
